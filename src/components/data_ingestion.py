@@ -25,6 +25,11 @@ class DataIngestion:
             os.makedirs(os.path.dirname(self.data_ingestion_config.train_data_path), exist_ok=True)
             logging.info('Artifacts folder created')
 
+            df = df.rename({'num':'heart_disease', 'dataset':'origin', 'sex':'gender'}, axis=1)
+            df = df.drop(columns=['slope','ca','thal','id']).reset_index(drop=True)
+            df['heart_disease'] = df['heart_disease'].apply(lambda x: 1 if x>0 else 0)
+            logging.info('Renaming and dropping the necessary columns')
+
             logging.info("Train test split initiated")
             train_set, test_set = train_test_split(df, test_size=0.2, random_state=42)
 
