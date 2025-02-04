@@ -8,3 +8,4 @@ pyfume
 imbalanced-learn
 xgboost
 tqdm
+-e .
