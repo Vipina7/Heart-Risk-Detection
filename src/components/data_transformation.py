@@ -10,6 +10,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from imblearn.over_sampling import RandomOverSampler, SMOTE
 
 class DataTransformationConfig:
     transformation_obj_path:str = os.path.join('artifacts', 'preprocessor.pkl')
@@ -68,11 +69,17 @@ class DataTransformation:
             save_object(
                 file_path=self.data_transformation_config.transformation_obj_path,
                 obj=preprocessor_obj)
+            
+            ros = RandomOverSampler(sampling_strategy='minority', random_state=42)
+            X_over_sampled, y_over_sampled = ros.fit_resample(X_train_scaled, y_train)
 
+            smote = SMOTE(sampling_strategy='minority', random_state=42)
+            X_train_final, y_train_final = smote.fit_resample(X_over_sampled, y_over_sampled)
+            
             return (
-                X_train_scaled,
+                X_train_final,
                 X_test_scaled,
-                y_train,
+                y_train_final,
                 y_test
             )
         
