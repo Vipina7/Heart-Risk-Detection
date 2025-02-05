@@ -1,6 +1,7 @@
 import sys
 import pandas as pd
 from src.exception import CustomException
+from src.logger import logging
 from src.utils import load_object
 
 
@@ -10,13 +11,17 @@ class PredictPipeline:
 
     def predict(self, features):
         try:
+            logging.info("Loading the model and preprocessor object")
             model_path = 'artifacts/model.pkl'
             preprocessor_path = 'artifacts/preprocessor.pkl'
 
             model = load_object(file_path=model_path)
             preprocessor = load_object(file_path=preprocessor_path)
 
+            logging.info("Preprocessing the input features")
             data_scaled = preprocessor.transform(features)
+            
+            logging.info("Making predictions successful")
             prediction = model.predict(data_scaled)
             return prediction
         
@@ -64,6 +69,7 @@ class CustomData:
                 "exang": [self.exang],
                 "oldpeak": [self.oldpeak]
             }
+            logging.info("Dataframe ready for prediction")
 
             return pd.DataFrame(custom_data_input_dict)
         
