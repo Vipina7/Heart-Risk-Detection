@@ -13,7 +13,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from xgboost import XGBClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, classification_report
 
 class ModelTrainerConfig:
     trained_model_path:str = os.path.join('artifacts','model.pkl')
@@ -119,7 +119,7 @@ class ModelTrainer:
 
             predicted=best_model.predict(X_test)
 
-            return accuracy_score(y_test, predicted)
+            return classification_report(y_test, predicted)
         
         except Exception as e:
             raise CustomException(e, sys)

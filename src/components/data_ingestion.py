@@ -55,4 +55,4 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = transform_obj.initiate_data_transformation(train_path=train_path, test_path=test_path)
 
     trainer_obj = ModelTrainer()
-    trainer_obj.initiate_model_training(X_train, X_test, y_train, y_test)
+    print(trainer_obj.initiate_model_training(X_train, X_test, y_train, y_test))
